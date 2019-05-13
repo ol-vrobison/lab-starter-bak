@@ -29,10 +29,12 @@ steps:
 - title: The title of the step # the title of the step, shown to the learner in the course progress page
   description: A step to do something
   # the event that will trigger the actions to be executed, full list at https://developer.github.com/v3/activity/events/types/
-  event: 
+  event: push 
   # a list of the actions that will occur when the step is triggered by an event
   actions:
-  - type: # the type of action, full list at https://lab.github.com/docs/actions
+  # the type of action, full list at https://lab.github.com/docs/actions
+  - type: respond
+    with: create_response.md
   # some actions require additional options, those should appear below `type:`
   # you can execute multiple actions in the `before` block
   #
