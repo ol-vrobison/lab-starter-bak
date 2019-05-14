@@ -12,22 +12,14 @@ template:
   name: my-sparkles-repo
   repo: lab-starter-template
 
-preferences:
-  - type: radio
-    name: gitTool
-    label: Preferred Git tool
-    description: You can follow this course's instructions using whichever Git tool you prefer.
-    options:
-      - label: GitHub.com
-        value: dotcom
-      - label: Command line
-        value: cli
-      - label: GitHub Desktop
-        value: desktop
+
 # `before` block
 # Actions to take place after the learner registers, but before they start interacting with their repo
 
 #before:
+- type: createIssue
+  title: Getting Started with GitHub
+  body: introduction.md
 #- type: createFile # the type of action, full list at https://lab.github.com/docs/actions/
 #  filename: SomeFile.md 
   # some actions require additional options, those should appear below `type:`
@@ -36,22 +28,39 @@ preferences:
 # Steps for the course
 # A list of steps that take the learner through the course
 # Create one step for each action that a learner will complete
-
 steps:
-- title: The title of the step # the title of the step, shown to the learner in the course progress page
-  description: A step to do something
-  # the event that will trigger the actions to be executed, full list at https://developer.github.com/v3/activity/events/types/
-  event: push 
-  # a list of the actions that will occur when the step is triggered by an event
-  actions:
-  # the type of action, full list at https://lab.github.com/docs/actions
-  - type: respond
-    with: create_response.md
-  # some actions require additional options, those should appear below `type:`
-  # you can execute multiple actions in the `before` block
-  #
-  # - type:
-  #   option:
-  #
-  # - type:
-  #   option:
+  - title: Install your first GitHub Apps
+    description: Learn what GitHub Apps are and how to install them
+    event: issues.closed
+    link: '{{ repoUrl }}/issues/1'
+    actions:
+    - type: updateBranchProtection
+    - type: createPullRequest
+      title: Trigger the app
+      head: add-to-list
+      body: 02_trigger-wip.md
+      action_id: first_pr
+    - type: respond
+      with: 01_successful-close.md
+      data:
+        url: '%actions.first_pr.data.html_url%'
+
+  - title: Trigger the WIP app
+    description: Once installed, learn how to interact with the app
+    event: "pull_request.edited"
+    link: '{{ repoUrl }}/pull/1'
+    actions:
+      - type: gate
+        left: '%payload.pull_request.title%'
+        operator: search
+        right: WIP
+        else:
+          - type: respond
+            with: 02_WIP-error-message.md
+      - type: mergeBranch
+        head: finish-list
+        base: add-to-list
+      - type: respond
+        with: 02_adding-smee.md
+        data:
+         repoUrl: '%payload.repository.html_url%'
