@@ -12,6 +12,18 @@ template:
   name: my-sparkles-repo
   repo: lab-starter-template
 
+preferences:
+  - type: radio
+    name: gitTool
+    label: Preferred Git tool
+    description: You can follow this course's instructions using whichever Git tool you prefer.
+    options:
+      - label: GitHub.com
+        value: dotcom
+      - label: Command line
+        value: cli
+      - label: GitHub Desktop
+        value: desktop
 # `before` block
 # Actions to take place after the learner registers, but before they start interacting with their repo
 
