@@ -1,1 +1,1 @@
-You did it - in responses @{{ user.username }}
+You did it - in responses
