@@ -17,6 +17,11 @@ template:
 # Actions to take place after the learner registers, but before they start interacting with their repo
 
 before:
+- type: updateBranchProtection
+- type: updateBranchProtection
+  branch: my-protected-branch
+- type: updateBranchProtection
+  enforce_admins: false
 - type: createIssue
   title: Getting Started with GitHub
   body: introduction.md
@@ -30,8 +35,8 @@ before:
 # A list of steps that take the learner through the course
 # Create one step for each action that a learner will complete
 steps:
-  - title: Install your first GitHub Apps
-    description: Learn what GitHub Apps are and how to install them
+  - title: Do Step 1
+    description: This is the description of the first step
     event: issues.closed
     link: '{{ repoUrl }}/issues/1'
     actions:
@@ -46,8 +51,8 @@ steps:
       data:
         url: '%actions.first_pr.data.html_url%'
 
-  - title: Trigger the WIP app
-    description: Once installed, learn how to interact with the app
+  - title: Do Step 2
+    description: This is the description of the next step
     event: "pull_request.edited"
     link: '{{ repoUrl }}/pull/1'
     actions:
